@@ -38,3 +38,9 @@ app.get('/movies', (req, res) => {
 app.get('/', (req, res) => {
     res.send("If you're looking for movies, you've come to the right place");
 });
+
+
+
+app.listen(8080, () =>{
+    console.log('Your app is listening on port 8080.');
+  });
