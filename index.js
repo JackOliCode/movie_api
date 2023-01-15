@@ -39,6 +39,7 @@ app.get('/', (req, res) => {
     res.send("If you're looking for movies, you've come to the right place");
 });
 
+app.use(express.static('public'));
 
 
 app.listen(8080, () =>{
