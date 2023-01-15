@@ -30,10 +30,12 @@ let topMovies = [
     }
 ];
 
-// GET requests
+// USE requests
 
 app.use(express.static('public'));
 app.use(morgan('common'));
+
+// GET requests
 
 app.get('/movies', (req, res) => {
     res.json(topMovies);
@@ -43,8 +45,14 @@ app.get('/', (req, res) => {
     res.send("If you're looking for movies, you've come to the right place");
 });
 
+//ERROR handling
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Oops, it looks like there was a glitchh in the Matrix!');
+  });
 
+// LISTEN
 app.listen(8080, () =>{
     console.log('Your app is listening on port 8080.');
   });
