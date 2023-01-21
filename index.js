@@ -1,9 +1,12 @@
 const express = require('express'),
-    morgan = require('morgan');
+  bodyParser = require('body-parser'),
+  uuid = require('uuid');
 
-const app = express();  
+const app = express();
 
-let topMovies = [
+app.use(bodyParser.json());
+
+let movies = [
     {
         title: 'Iron Man',
         release_date: 'May 2, 2008'
@@ -38,18 +41,29 @@ app.use(morgan('common'));
 // GET requests
 
 app.get('/movies', (req, res) => {
-    res.json(topMovies);
+    res.json(movies);
 });
 
 app.get('/', (req, res) => {
     res.send("If you're looking for movies, you've come to the right place");
 });
 
+
+
+
+
+
+
+
+
+
+
+
 //ERROR handling
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send('Oops, it looks like there was a glitchh in the Matrix!');
+    res.status(500).send('Oops, it looks like there was a glitch in the Matrix!');
   });
 
 // LISTEN
