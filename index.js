@@ -24,6 +24,7 @@ let users = [
     }
 ]
 
+// defind movies array
 
 let movies = [
     {
@@ -100,14 +101,19 @@ let movies = [
 
 
 
-// GET requests
+// movies requests
 
-app.get('/movies', (req, res) => {
+app.get('/', (req, res) => {
+    res.send("If you're looking for movies, you've come to the right place. Try adding something else to your URL request to get this party started");
+});
+
+app.get('/movies', (req, res) => { //Return a list of ALL movies to the user;
     res.json(movies);
 });
 
-app.get('/', (req, res) => {
-    res.send("If you're looking for movies, you've come to the right place");
+app.get('/movies/:title', (req, res) => {
+    res.json(movies.find((movies) =>
+    { return movies.title === req.params.title }));
 });
 
 
