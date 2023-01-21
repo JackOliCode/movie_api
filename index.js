@@ -4,6 +4,10 @@ const express = require('express'),
 
 const app = express();
 
+// USE requests
+
+app.use(express.static('public'));
+app.use(morgan('common'));
 app.use(bodyParser.json());
 
 // define users array
@@ -94,10 +98,7 @@ let movies = [
     }
 ];
 
-// USE requests
 
-app.use(express.static('public'));
-app.use(morgan('common'));
 
 // GET requests
 
