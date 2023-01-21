@@ -6,8 +6,6 @@ const app = express();
 
 // USE requests
 
-app.use(express.static('public'));
-app.use(morgan('common'));
 app.use(bodyParser.json());
 
 // define users array
@@ -99,23 +97,62 @@ let movies = [
     }
 ];
 
+// allow new users to register POST/ CREATE
 
+app.post('/users', (req, res) => {
+    const new
+})
 
-// movies requests
+// movies requests GET/READ
 
 app.get('/', (req, res) => {
     res.send("If you're looking for movies, you've come to the right place. Try adding something else to your URL request to get this party started");
-});
+}); 
 
 app.get('/movies', (req, res) => { //Return a list of ALL movies to the user;
     res.json(movies);
 });
 
-app.get('/movies/:title', (req, res) => {
-    res.json(movies.find((movies) =>
-    { return movies.title === req.params.title }));
-});
+//specific movie by title GET/READ
 
+app.get('/movies/:title', (req, res) => {
+    const { title } = req.params;
+    const movie = movies.find( movie => movie.title === title );
+
+    if (movie) {
+    res.status(200).json(movie);
+    } else {
+    res.status(400).send('This movie did not make the list - try something classic like Zoolander')
+    }
+})
+
+// specific genre GET/READ
+
+app.get('/movies/genre/:genreName', (req, res) => {
+    const { genreName } = req.params;
+    const genre = movies.find( movie => movie.genre.name === genreName ).genre;
+
+    if (genre) {
+    res.status(200).json(genre);
+    } else {
+    res.status(400).send('No such genre exists')
+    }
+})
+
+// director by name GET/READ
+
+app.get('/movies/directors/:directorName', (req, res) => {
+    const { directorName } = req.params;
+    const director = movies.find( movie => movie.director.name === directorName ).director;
+
+    if (director) {
+    res.status(200).json(director);
+    } else {
+    res.status(400).send('No such genre exists')
+    }
+})
+
+//
 
 
 
