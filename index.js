@@ -12,12 +12,12 @@ app.use(bodyParser.json());
 let users = [
     {
         id: 1,
-        userName: 'filmlover69',
+        name: 'filmlover69',
         faveMovies: []
     },
     {
         id: 2,
-        userName: 'Hansel-so-hot-right-now',
+        name: 'Hansel-so-hot-right-now',
         faveMovies: ['Zoolander']
     }
 ]
@@ -100,8 +100,79 @@ let movies = [
 // allow new users to register POST/ CREATE
 
 app.post('/users', (req, res) => {
-    const new
+    const newUser = req.body;
+
+    if (newUser.name) {
+        newUser.id = uuid.v4();
+        users.push(newUser);
+        res.status(201).json(newUser)
+    } else {
+        res.status(400).send("users need names")
+    }
 })
+
+//  Allow users to update their user info (name); UPDATE // PUT
+
+app.put('/users/:id', (req, res) => {
+    const { id } = req.params;
+    const updatedUser = req.body;
+    
+    let user = users.find( user => user.id == id ); // need a double == not triple. As user.id is a number and id is a string
+
+    if (user) {
+        user.name = updatedUser.name;
+        res.status(200).json(user);
+    } else {
+        res.status(400).send("user not found")
+    }
+})
+
+// allow users to add a movie to their list of favorites POST
+
+app.post('/users/:id/:movieTitle', (req, res) => {
+    const { id, movieTitle } = req.params;
+
+    let user = users.find( user => user.id == id );
+
+    if (user) {
+        user.faveMovies.push(movieTitle);
+        res.status(200).send(`${movieTitle} has been added to user ${id}'s list`);
+    } else {
+        res.status(400).send("user not found")
+    }
+})
+
+// allow users to delete movies from faveMovies list DELETE
+
+app.delete('/users/:id/:movieTitle', (req, res) => {
+    const { id, movieTitle } = req.params;
+
+    let user = users.find( user => user.id == id );
+
+    if (user) {
+        user.faveMovies = user.faveMovies.filter( title => title !== movieTitle);
+        res.status(200).send(`${movieTitle} has been removed from user ${id}'s list`);
+    } else {
+        res.status(400).send("user not found")
+    }
+})
+
+// allow users to deregister DELETE
+
+
+app.delete('/users/:id', (req, res) => {
+    const { id } = req.params;
+
+    let user = users.find( user => user.id == id );
+
+    if (user) {
+        users = users.filter( user => user.id != id)
+        res.status(200).send(`user ${id} has been deleted`);
+    } else {
+        res.status(400).send("user not found")
+    }
+})
+
 
 // movies requests GET/READ
 
@@ -111,6 +182,10 @@ app.get('/', (req, res) => {
 
 app.get('/movies', (req, res) => { //Return a list of ALL movies to the user;
     res.json(movies);
+});
+
+app.get('/users', (req, res) => { //Return a list of ALL movies to the user;
+    res.json(users);
 });
 
 //specific movie by title GET/READ
