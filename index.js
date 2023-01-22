@@ -22,7 +22,7 @@ let users = [
     }
 ]
 
-// defind movies array
+// define movies array
 
 let movies = [
     {
@@ -96,6 +96,8 @@ let movies = [
         description: 'Gandalf and Aragorn lead the World of Men against Sauron\'s army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.'
     }
 ];
+
+// USER orientated URL requests below ------------------- 
 
 // allow new users to register POST/ CREATE
 
@@ -174,7 +176,9 @@ app.delete('/users/:id', (req, res) => {
 })
 
 
-// movies requests GET/READ
+// movies related URL requests below --------------- 
+
+//GET/READ
 
 app.get('/', (req, res) => {
     res.send("If you're looking for movies, you've come to the right place. Try adding something else to your URL request to get this party started");
@@ -182,10 +186,6 @@ app.get('/', (req, res) => {
 
 app.get('/movies', (req, res) => { //Return a list of ALL movies to the user;
     res.json(movies);
-});
-
-app.get('/users', (req, res) => { //Return a list of ALL movies to the user;
-    res.json(users);
 });
 
 //specific movie by title GET/READ
@@ -223,7 +223,7 @@ app.get('/movies/directors/:directorName', (req, res) => {
     if (director) {
     res.status(200).json(director);
     } else {
-    res.status(400).send('No such genre exists')
+    res.status(400).send("This director didn't make the cut this time")
     }
 })
 
