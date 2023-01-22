@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Documentation</title>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/styles.css" />
   </head>
 
   <body>
@@ -29,7 +29,7 @@
         </ul>
     </div>
 
-    <h2>API Endpoint Documentation</h2>
+    <h2 class="api_heading">API Endpoint Documentation</h2>
 
     <table class="table">
       <thead>
@@ -59,7 +59,7 @@
         <td>GET</td>
         <td>:title</td>
         <td>-</td>
-        <td>A JSON object holding data about a single movie</td>
+        <td>A JSON object holding data about a single movie, consisting of; Title, Director, Genre, release date</td>
       </tr>
 
       <tr>
@@ -73,7 +73,7 @@
 
       <tr>
         <td>Returns data about a director by name</td>
-        <td>/movies/director/:directorName</td>
+        <td>/movies/directors/:directorName</td>
         <td>GET</td>
         <td>:directorName</td>
         <td>-</td>
@@ -85,8 +85,8 @@
         <td>/users</td>
         <td>POST</td>
         <td>-</td>
-        <td>A JSON object holding data about the user to add, structured like: { "name" : "John" }</td>
-        <td>A JSON object holding data about the user that was added</td>
+        <td>A JSON object holding data about the user to add, structured like: { "name" : "Kimdotcom" }</td>
+        <td>A JSON object holding data about the user that was added, including a new ID. </td>
       </tr>
 
       <tr>
@@ -103,8 +103,8 @@
         <td>/users/:id/:movieTitle</td>
         <td>POST</td>
         <td>:id, :movieTitle</td>
-        <td>-</td>
-        <td>A JSON object holding data about the user and the movie that was added</td>
+        <td>A JSON object holding data about the movie user would like to add to faveMovies. Structured like { "title" : "Zoolander" }</td>
+        <td>A text message confirming that movie that was added to favourites</td>
       </tr>
 
       <tr>
@@ -113,7 +113,7 @@
         <td>DELETE</td>
         <td>:id, :movieTitle</td>
         <td>-</td>
-        <td>A JSON object holding data about the user and the movie that was removed</td>
+        <td>A text message indicating that movie was removed from list</td>
       </tr>
 
       <tr>
@@ -122,7 +122,7 @@
         <td>DELETE</td>
         <td>:id</td>
         <td>-</td>
-        <td>A text message indicating whether the user has successfully deregistered</td>
+        <td>A text message indicating that user was deregistered</td>
       </tr>
      </tbody>
      </table>
