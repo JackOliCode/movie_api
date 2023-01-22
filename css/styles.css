@@ -5,3 +5,19 @@
 .table, th, td {
     border: 1px solid black;
 }
+
+h1, h2 {
+    padding: 1rem;
+    margin: auto;
+    text-decoration: underline;
+}
+
+p {
+    padding: 1rem;
+    margin: auto;
+}
+
+.api_heading {
+    text-decoration: underline;
+    text-align: center;
+}
