@@ -18,6 +18,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
+let auth = require('./auth')(app);
+
+const passport = require('passport');
+require('./passport');
+
 // USER orientated URL requests below ------------------- 
 
 // allow new users to register POST/ CREATE
@@ -175,7 +182,7 @@ app.get('/', (req, res) => {
 
 // GET all movies
 
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.find()
       .then((movies) => {
         res.status(201).json(movies);
