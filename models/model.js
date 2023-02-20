@@ -25,6 +25,15 @@ let movieSchema = mongoose.Schema({
     Birthday: Date,
     FaveMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
   });
+
+userSchema.statics.hashPassword = (password) => {
+  return bcrypt.hashSync(password, 10);
+};
+
+userSchema.methods.validatePassword = function(password) { // don't use arrow functions when defining methods. Eg. of Instance method that can be called on each object/document created (each individual object/document)
+  return bcrypt.compareSync(password, this.password);
+};
+
   
   let Movie = mongoose.model('Movie', movieSchema);
   let User = mongoose.model('User', userSchema);
