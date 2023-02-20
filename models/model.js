@@ -29,9 +29,9 @@ let movieSchema = mongoose.Schema({
 userSchema.statics.hashPassword = (password) => {
   return bcrypt.hashSync(password, 10);
 };
-
-userSchema.methods.validatePassword = function(password) { // don't use arrow functions when defining methods. Eg. of Instance method that can be called on each object/document created (each individual object/document)
-  return bcrypt.compareSync(password, this.password);
+// don't use arrow functions when defining methods. Eg. of Instance method that can be called on each object/document created (each individual object/document)
+userSchema.methods.validatePassword = function(password) {
+  return bcrypt.compareSync(password, this.Password);
 };
 
   
