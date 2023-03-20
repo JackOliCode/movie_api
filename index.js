@@ -203,7 +203,7 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {ses
   });
 
 // Delete a user by username
-app.delete('/users/:Username' (req, res) => {
+app.delete('/users/:Username', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.findOneAndRemove({ Username: req.params.Username })
       .then((user) => {
         if (!user) {
