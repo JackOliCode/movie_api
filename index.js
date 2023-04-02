@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
 //app.use(cors());
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://jackoc-myflix.onrender.com/', 'http://jackoc-myflix.onrender.com/login'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://jackoc-myflix.onrender.com/', 'http://jackoc-myflix.onrender.com/login', 'https://jackocflix.netlify.app/login'];
 app.use(cors({
   origin: (origin, callback) => {
     if(!origin) return callback(null, true);
