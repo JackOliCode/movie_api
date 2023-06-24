@@ -62,7 +62,8 @@ require('./passport');
  * @param birthday
  * @param password
  * Returns a user object
-* */
+* 
+*/
 
 app.post('/users', 
 [
@@ -120,7 +121,8 @@ app.get('/users', (req, res) => {
  * requires a CONDITION .Username
  * @param userName
  * Returns a user object
- * */
+ * 
+ */
 
 app.get('/users/:Username',  (req, res) => {
     Users.findOne({ Username: req.params.Username })
@@ -152,7 +154,8 @@ app.get('/users/:Username',  (req, res) => {
  * @param birthday
  * @param password
  * returns a user object
-* */
+*/
+
 app.put('/users/:Username', passport.authenticate('jwt', {session: false}), 
 [
   check('Username', 'Username is required').isLength({min: 5}),
@@ -193,7 +196,8 @@ app.put('/users/:Username', passport.authenticate('jwt', {session: false}),
  * @param Username
  * @param MovieID
  * Returns list of favourite movies in the body
- * */
+ * 
+ */
 
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username }, {
@@ -213,7 +217,7 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {sessi
 /** Delete movie from user favorites
  * @param Username
  * @param MovieID 
- *  */
+ */
 
 app.delete('/users/:Username/movies/:MovieID', (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username }, {
@@ -233,7 +237,7 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
 /** Delete user
  * @param Username
  * Deletes a user based on username.
- * */
+ */
 
 app.delete('/users/:Username', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.findOneAndRemove({ Username: req.params.Username })
@@ -263,7 +267,7 @@ app.get('/', (req, res) => {
 
 /** Get all movies
  * @param Movies
- *  */
+ */
 
 app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.find()
@@ -280,7 +284,7 @@ app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) =>
 /** Get one movie by Title
  * @param Movies
  * @param Title
- *  */
+ */
 
 app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({ Title: req.params.Title })
@@ -297,7 +301,7 @@ app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, 
  * @param Movies
  * @param genre
  * @param genreName
- *  */
+ */
 
 app.get('/movies/genre/:genreName', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({ 'Genre.Name': req.params.genreName })
@@ -314,7 +318,7 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', {session: false
  * @param Movies
  * @param Director
  * @param directorName
- *  */
+ */
 
 app.get('/movies/director/:directorName', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({ 'Director.Name': req.params.directorName })
