@@ -66,7 +66,6 @@ require('./passport');
  * @param {Date} req.body.Birthday - User's birthday
  * @returns {User} User object
  */
-
 app.post('/users', 
 [
   check('Username', 'Username is required').isLength({min: 5}),
@@ -126,7 +125,6 @@ app.get('/users', (req, res) => {
  * @param {string} req.params.Username - User's username
  * @returns {User} User object
  */
-
 app.get('/users/:Username',  (req, res) => {
     Users.findOne({ Username: req.params.Username })
       .then((user) => {
@@ -151,7 +149,6 @@ app.get('/users/:Username',  (req, res) => {
  * @param {Date} req.body.Birthday - Updated birthday
  * @returns {User} Updated user object
  */
-
 app.put('/users/:Username', passport.authenticate('jwt', {session: false}), 
 [
   check('Username', 'Username is required').isLength({min: 5}),
@@ -195,7 +192,6 @@ app.put('/users/:Username', passport.authenticate('jwt', {session: false}),
  * @param {string} req.params.MovieID - Movie ID to add to favorites
  * @returns {User} Updated user object with list of favorite movies
  */
-
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username }, {
        $push: { FaveMovies: req.params.MovieID }
@@ -219,7 +215,6 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {sessi
  * @param {string} req.params.MovieID - Movie ID to remove from favorites
  * @returns {User} Updated user object with updated list of favorite movies
  */
-
 app.delete('/users/:Username/movies/:MovieID', (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username }, {
        $pull: { FaveMovies: req.params.MovieID }
@@ -242,7 +237,6 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
  * @param {string} req.params.Username - User's username
  * @returns {string} Success message or error message
  */
-
 app.delete('/users/:Username', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.findOneAndRemove({ Username: req.params.Username })
       .then((user) => {
@@ -265,7 +259,6 @@ app.delete('/users/:Username', passport.authenticate('jwt', {session: false}), (
  * Get request for homepage
  * 
  */
-
 app.get('/', (req, res) => {
     res.send("If you're looking for movies, you've come to the right place. Try adding something else to your URL request to get this party started");
 }); 
@@ -276,7 +269,6 @@ app.get('/', (req, res) => {
  * @route GET /movies
  * @returns {Movie[]} Array of movie objects
  */
-
 app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.find()
       .then((movies) => {
@@ -296,7 +288,6 @@ app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) =>
  * @param {string} req.params.Title - Movie title
  * @returns {Movie} Movie object
  */
-
 app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({ Title: req.params.Title })
       .then((movie) => {
@@ -315,7 +306,6 @@ app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, 
  * @param {string} req.params.genreName - Genre name
  * @returns {Genre} Genre object
  */
-
 app.get('/movies/genre/:genreName', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({ 'Genre.Name': req.params.genreName })
       .then((movie) => {
@@ -334,7 +324,6 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', {session: false
  * @param {string} req.params.directorName - Director name
  * @returns {Director} Director object
  */
-
 app.get('/movies/director/:directorName', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({ 'Director.Name': req.params.directorName })
       .then((movie) => {
@@ -356,7 +345,6 @@ app.get('/movies/director/:directorName', passport.authenticate('jwt', {session:
  * @param {Response} res - The response object.
  * @param {function} next - The next function.
  */
-
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Oops, it looks like there was a glitch in the Matrix!');
@@ -365,7 +353,6 @@ app.use((err, req, res, next) => {
 /**
  * Start the server.
  */
-
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
  console.log('Listening on Port ' + port);
