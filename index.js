@@ -44,21 +44,8 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-// USER orientated URL requests below ------------------- 
-
-/**
- * @property {number} ID - User ID
- * @property {string} Username - User username
- * @property {string} Password - User password
- * @property {string} Email - User email
- * @property {Date} Birthday - User birthday
- */
- 
-
-
 /**
  * Sign up - Allows new users to register.
- *
  * @route POST /users
  * @param {string} req.body.Username - User's username
  * @param {string} req.body.Password - User's password
@@ -104,23 +91,8 @@ app.post('/users',
       });
   });
 
-/*
-app.get('/users', (req, res) => {
-    Users.find()
-      .then((users) => {
-        res.status(201).json(users);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-      });
-  }); 
-  
-  */
-
 /**
  * Get user by username.
- *
  * @route GET /users/:Username
  * @param {string} req.params.Username - User's username
  * @returns {User} User object
@@ -137,10 +109,8 @@ app.get('/users/:Username',  (req, res) => {
   });
 
 
-
 /**
  * Update a user's info, by username.
- *
  * @route PUT /users/:Username
  * @param {string} req.params.Username - User's username
  * @param {string} req.body.Username - Updated username
@@ -186,7 +156,6 @@ app.put('/users/:Username', passport.authenticate('jwt', {session: false}),
 
 /**
  * Allows users to add a movie to their list of favorites.
- *
  * @route POST /users/:Username/movies/:MovieID
  * @param {string} req.params.Username - User's username
  * @param {string} req.params.MovieID - Movie ID to add to favorites
@@ -209,7 +178,6 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {sessi
 
 /**
  * Delete movie from user favorites.
- *
  * @route DELETE /users/:Username/movies/:MovieID
  * @param {string} req.params.Username - User's username
  * @param {string} req.params.MovieID - Movie ID to remove from favorites
@@ -232,7 +200,6 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
 
 /**
  * Delete user.
- *
  * @route DELETE /users/:Username
  * @param {string} req.params.Username - User's username
  * @returns {string} Success message or error message
@@ -257,7 +224,6 @@ app.delete('/users/:Username', passport.authenticate('jwt', {session: false}), (
 
 /** 
  * Get request for homepage
- * 
  */
 app.get('/', (req, res) => {
     res.send("If you're looking for movies, you've come to the right place. Try adding something else to your URL request to get this party started");
@@ -265,7 +231,6 @@ app.get('/', (req, res) => {
 
 /**
  * Get all movies.
- *
  * @route GET /movies
  * @returns {Movie[]} Array of movie objects
  */
@@ -283,7 +248,6 @@ app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) =>
 
 /**
  * Get one movie by Title.
- *
  * @route GET /movies/:Title
  * @param {string} req.params.Title - Movie title
  * @returns {Movie} Movie object
@@ -301,7 +265,6 @@ app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, 
 
 /**
  * Get Movie Genre by Genre.
- *
  * @route GET /movies/genre/:genreName
  * @param {string} req.params.genreName - Genre name
  * @returns {Genre} Genre object
@@ -319,7 +282,6 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', {session: false
 
 /**
  * Get Movie Director by Director.
- *
  * @route GET /movies/director/:directorName
  * @param {string} req.params.directorName - Director name
  * @returns {Director} Director object
@@ -339,7 +301,6 @@ app.get('/movies/director/:directorName', passport.authenticate('jwt', {session:
 
 /**
  * Error handling middleware.
- *
  * @param {Error} err - The error object.
  * @param {Request} req - The request object.
  * @param {Response} res - The response object.
