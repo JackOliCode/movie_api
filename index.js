@@ -46,7 +46,8 @@ require('./passport');
 
 // USER orientated URL requests below ------------------- 
 
-/** Sign up
+/** 
+ * Sign up
  * Allows new users to register POST/ CREATE
  * Sends new user details in the body of the request
  * We’ll expect JSON in this format
@@ -117,7 +118,8 @@ app.get('/users', (req, res) => {
   
   */
 
-/** Get user by username - 
+/** 
+ * Get user by username - 
  * requires a CONDITION .Username
  * @param userName
  * Returns a user object
@@ -137,7 +139,8 @@ app.get('/users/:Username',  (req, res) => {
 
 
 
-/** Update a user's info, by username
+/** 
+ * Update a user's info, by username
 * We’ll expect JSON in this format
 *{
  * Username: String,
@@ -191,7 +194,8 @@ app.put('/users/:Username', passport.authenticate('jwt', {session: false}),
     });
   });
 
-/** allows users to add a movie to their list of favorites POST
+/** 
+ * allows users to add a movie to their list of favorites POST
  * Function places movie ID into user favorites
  * @param Username
  * @param MovieID
@@ -214,7 +218,8 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {sessi
     });
   });
 
-/** Delete movie from user favorites
+/** 
+ * Delete movie from user favorites
  * @param Username
  * @param MovieID 
  */
@@ -234,7 +239,8 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
     });
   });
 
-/** Delete user
+/** 
+ * Delete user
  * @param Username
  * Deletes a user based on username.
  */
@@ -257,7 +263,8 @@ app.delete('/users/:Username', passport.authenticate('jwt', {session: false}), (
 
 // movies related URL requests below --------------- 
 
-/** Get request for homepage
+/** 
+ * Get request for homepage
  * 
  * */
 
@@ -265,7 +272,8 @@ app.get('/', (req, res) => {
     res.send("If you're looking for movies, you've come to the right place. Try adding something else to your URL request to get this party started");
 }); 
 
-/** Get all movies
+/** 
+ * Get all movies
  * @param Movies
  */
 
@@ -281,7 +289,8 @@ app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) =>
   });
 
 
-/** Get one movie by Title
+/** 
+ * Get one movie by Title
  * @param Movies
  * @param Title
  */
@@ -297,7 +306,8 @@ app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, 
       });
   });
 
-/** Get Movie Genre by Genre
+/** 
+ * Get Movie Genre by Genre
  * @param Movies
  * @param genre
  * @param genreName
@@ -314,7 +324,8 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', {session: false
       });
     });
 
-/** Get Movie Director by Director
+/** 
+ * Get Movie Director by Director
  * @param Movies
  * @param Director
  * @param directorName
