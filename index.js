@@ -1,10 +1,17 @@
+/**
+ * @typedef {import('express').Request} Request
+ * @typedef {import('express').Response} Response
+ * @typedef {import('express').NextFunction} NextFunction
+ * @typedef {import('mongoose').Document} Document
+ */
+
+
 const mongoose = require('mongoose');
 const Models = require('./models/model.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
-// mongoose.connect('mongodb://127.0.0.1:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
@@ -47,16 +54,23 @@ require('./passport');
 
 // USER orientated URL requests below ------------------- 
 
-// allow new users to register POST/ CREATE
-//Add a user
-/* We’ll expect JSON in this format
-{
-  ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
-}*/
+/** Sign up
+ * Allows new users to register POST/ CREATE
+ * Sends new user details in the body of the request
+ * We’ll expect JSON in this format
+*{
+ * ID: Integer,
+ * Username: String,
+ * Password: String,
+ * Email: String,
+ * Birthday: Date
+ *}
+ * @param userName
+ * @param email
+ * @param birthday
+ * @param password
+ * Returns a user object
+* */
 
 app.post('/users', 
 [
@@ -110,7 +124,12 @@ app.get('/users', (req, res) => {
   
   */
 
-  // Get a user by username - requires a CONDITION .Username
+/** Get user by username - 
+ * requires a CONDITION .Username
+ * @param userName
+ * Returns a user object
+ * */
+
 app.get('/users/:Username',  (req, res) => {
     Users.findOne({ Username: req.params.Username })
       .then((user) => {
@@ -124,17 +143,24 @@ app.get('/users/:Username',  (req, res) => {
 
 
 
-// Update a user's info, by username
-/* We’ll expect JSON in this format
-{
-  Username: String,
-  (required)
-  Password: String,
-  (required)
-  Email: String,
-  (required)
-  Birthday: Date
-}*/
+/** Update a user's info, by username
+* We’ll expect JSON in this format
+*{
+ * Username: String,
+ * (required)
+ * Password: String,
+ * (required)
+ * Email: String,
+ * (required)
+ * Birthday: Date
+* }
+* Function changes user details
+ * @param userName
+ * @param email
+ * @param birthday
+ * @param password
+ * returns a user object
+* */
 app.put('/users/:Username', passport.authenticate('jwt', {session: false}), 
 [
   check('Username', 'Username is required').isLength({min: 5}),
@@ -170,7 +196,12 @@ app.put('/users/:Username', passport.authenticate('jwt', {session: false}),
     });
   });
 
-// allow users to add a movie to their list of favorites POST
+/** allows users to add a movie to their list of favorites POST
+ * Function places movie ID into user favorites
+ * @param Username
+ * @param MovieID
+ * Returns list of favourite movies in the body
+ * */
 
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username }, {
@@ -187,7 +218,10 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {sessi
     });
   });
 
-// allow users to delete movies from faveMovies list DELETE
+/** Delete movie from user favorites
+ * @param Username
+ * @param MovieID 
+ *  */
 
 app.delete('/users/:Username/movies/:MovieID', (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username }, {
@@ -204,7 +238,11 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
     });
   });
 
-// Delete a user by username
+/** Delete user
+ * @param Username
+ * Deletes a user based on username.
+ * */
+
 app.delete('/users/:Username', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.findOneAndRemove({ Username: req.params.Username })
       .then((user) => {
@@ -223,13 +261,17 @@ app.delete('/users/:Username', passport.authenticate('jwt', {session: false}), (
 
 // movies related URL requests below --------------- 
 
-//GET/READ
+/** Get request for homepage
+ * 
+ * */
 
 app.get('/', (req, res) => {
     res.send("If you're looking for movies, you've come to the right place. Try adding something else to your URL request to get this party started");
 }); 
 
-// GET all movies
+/** Get all movies
+ * @param Movies
+ *  */
 
 app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.find()
@@ -243,7 +285,10 @@ app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) =>
   });
 
 
-//specific movie by title GET/READ
+/** Get one movie by Title
+ * @param Movies
+ * @param Title
+ *  */
 
 app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({ Title: req.params.Title })
@@ -256,7 +301,11 @@ app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, 
       });
   });
 
-// Get a Genre by Genrename
+/** Get Movie Genre by Genre
+ * @param Movies
+ * @param genre
+ * @param genreName
+ *  */
 
 app.get('/movies/genre/:genreName', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({ 'Genre.Name': req.params.genreName })
@@ -269,7 +318,11 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', {session: false
       });
     });
 
-// director by name GET/READ
+/** Get Movie Director by Director
+ * @param Movies
+ * @param Director
+ * @param directorName
+ *  */
 
 app.get('/movies/director/:directorName', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({ 'Director.Name': req.params.directorName })
@@ -284,14 +337,24 @@ app.get('/movies/director/:directorName', passport.authenticate('jwt', {session:
 
 //
 
-//ERROR handling
+/**
+ * Error handling middleware.
+ *
+ * @param {Error} err - The error object.
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @param {function} next - The next function.
+ */
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Oops, it looks like there was a glitch in the Matrix!');
   });
 
-// LISTEN
+/**
+ * Start the server.
+ */
+
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
  console.log('Listening on Port ' + port);
